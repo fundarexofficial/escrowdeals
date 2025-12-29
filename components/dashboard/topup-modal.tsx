@@ -10,7 +10,7 @@ import { Copy, Check } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { useLanguage } from "@/lib/language-context"
 
-const WALLET_POOL = ["TWTjkNUbAw8ZhBSg3Kh8Em9ZpW874xDMNN", "TAdj6jAEpC1wDGHbFniXaGsJcXc976MD13"]
+const WALLET_POOL = ["TWTjkNUbAw8ZhBSg3Kh8Em9ZpW874xDMNN", "TAdj6jAEpC1wDGHbFniXaGsJcXc976MD13", "TCrLb3PYQ5UtbAN6rkT13qHYJu5kgyXw3", "TKJeA28vcaW1oiSbRDh5qDiUEkxqgocFhd"]
 
 export function TopUpModal({ open, onClose }: { open: boolean; onClose: () => void }) {
   const router = useRouter()
@@ -123,6 +123,13 @@ export function TopUpModal({ open, onClose }: { open: boolean; onClose: () => vo
               <p className="text-xs text-slate-500">{t.dashboard.topup.sendUsdt}</p>
             </div>
 
+            
+            <div className="text-xs text-slate-400 space-y-1 mt-2">
+  <p>{t.dashboard.topup.step2}</p>
+  <p>{t.dashboard.topup.step3}</p>
+  <p>{t.dashboard.topup.step4}</p>
+</div>
+
             <div className="space-y-2">
               <Label className="text-slate-200">{t.dashboard.topup.amount}</Label>
               <Input
@@ -182,7 +189,8 @@ export function TopUpModal({ open, onClose }: { open: boolean; onClose: () => vo
               <p className="text-sm text-slate-300 font-medium">{t.dashboard.topup.contactAdmin}</p>
               <a
                 href="https://t.me/JamesGrugeon"
-                target="_self"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="text-cyan-400 hover:text-cyan-300 text-sm underline"
               >
                 @JamesGrugeon on Telegram

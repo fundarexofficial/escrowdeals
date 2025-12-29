@@ -1,30 +1,30 @@
-"use client"
+// app/terms/page.tsx
+"use client";
 
-import { Navigation } from "@/components/ui/navigation"
-import { Footer } from "@/components/home/footer"
-import { useLanguage } from "@/lib/language-context"
+import { Footer } from "@/components/home/footer";
+import { useLanguage } from "@/lib/language-context";
 
 export default function TermsPage() {
-  const { t } = useLanguage()
-  const terms = t.termsPage
+  const { t } = useLanguage();
+  const terms = t.termsPage;
 
   return (
     <>
-      <Navigation />
       <div className="min-h-screen bg-gradient-to-b from-slate-950 to-slate-900 text-white py-20">
         <div className="max-w-4xl mx-auto px-4">
           <h1 className="text-4xl font-bold mb-8 text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-teal-400">
             {terms.title}
           </h1>
-          <div className="space-y-6 text-gray-300 leading-relaxed">
-            <p className="text-sm text-gray-400">{terms.lastUpdated}</p>
 
-            <section className="space-y-4">
+          <p className="text-sm text-gray-400 mb-8">{terms.lastUpdated}</p>
+
+          <div className="space-y-8 text-gray-300 leading-relaxed">
+            <section>
               <h2 className="text-2xl font-semibold text-white mt-8">{terms.section1Title}</h2>
               <p>{terms.section1Content}</p>
             </section>
 
-            <section className="space-y-4">
+            <section>
               <h2 className="text-2xl font-semibold text-white mt-8">{terms.section2Title}</h2>
               <p>{terms.section2Content}</p>
             </section>
@@ -45,30 +45,30 @@ export default function TermsPage() {
               </div>
             </section>
 
-            <section className="space-y-4">
+            <section>
               <h2 className="text-2xl font-semibold text-white mt-8">{terms.section4Title}</h2>
               <p>{terms.section4Content}</p>
-              <ul className="list-disc list-inside space-y-2 ml-4">
+              <ul className="list-disc list-inside space-y-2 ml-4 mt-2">
                 {terms.section4List.map((item: string, index: number) => (
                   <li key={index}>{item}</li>
                 ))}
               </ul>
             </section>
 
-            <section className="space-y-4">
+            <section>
               <h2 className="text-2xl font-semibold text-white mt-8">{terms.section5Title}</h2>
               <p>{terms.section5Content}</p>
-              <ul className="list-disc list-inside space-y-2 ml-4">
+              <ul className="list-disc list-inside space-y-2 ml-4 mt-2">
                 {terms.section5List.map((item: string, index: number) => (
                   <li key={index}>{item}</li>
                 ))}
               </ul>
             </section>
 
-            <section className="space-y-4">
+            <section>
               <h2 className="text-2xl font-semibold text-white mt-8">{terms.section6Title}</h2>
               <p>{terms.section6Content}</p>
-              <ul className="list-disc list-inside space-y-2 ml-4">
+              <ul className="list-disc list-inside space-y-2 ml-4 mt-2">
                 {terms.section6List.map((item: string, index: number) => (
                   <li key={index}>{item}</li>
                 ))}
@@ -76,42 +76,42 @@ export default function TermsPage() {
               <p className="mt-4">{terms.section6Extra}</p>
             </section>
 
-            <section className="space-y-4">
+            <section>
               <h2 className="text-2xl font-semibold text-white mt-8">{terms.section7Title}</h2>
               <p>{terms.section7Content}</p>
-              <ul className="list-disc list-inside space-y-2 ml-4">
+              <ul className="list-disc list-inside space-y-2 ml-4 mt-2">
                 {terms.section7List.map((item: string, index: number) => (
                   <li key={index}>{item}</li>
                 ))}
               </ul>
             </section>
 
-            <section className="space-y-4">
+            <section>
               <h2 className="text-2xl font-semibold text-white mt-8">{terms.section8Title}</h2>
               <p>{terms.section8Content}</p>
             </section>
 
-            <section className="space-y-4">
+            <section>
               <h2 className="text-2xl font-semibold text-white mt-8">{terms.section9Title}</h2>
               <p>{terms.section9Content}</p>
             </section>
 
-            <section className="space-y-4">
+            <section>
               <h2 className="text-2xl font-semibold text-white mt-8">{terms.section10Title}</h2>
               <p>{terms.section10Content}</p>
             </section>
 
-            <section className="space-y-4">
+            <section>
               <h2 className="text-2xl font-semibold text-white mt-8">{terms.section11Title}</h2>
               <p>{terms.section11Content}</p>
             </section>
 
-            <section className="space-y-4">
+            <section>
               <h2 className="text-2xl font-semibold text-white mt-8">{terms.section12Title}</h2>
               <p>{terms.section12Content}</p>
             </section>
 
-            <section className="space-y-4">
+            <section>
               <h2 className="text-2xl font-semibold text-white mt-8">{terms.section13Title}</h2>
               <p>
                 {terms.section13Content}{" "}
@@ -132,7 +132,8 @@ export default function TermsPage() {
           </div>
         </div>
       </div>
+
       <Footer />
     </>
-  )
+  );
 }
