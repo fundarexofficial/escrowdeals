@@ -61,7 +61,9 @@ export function Navigation() {
   const mainNavItems = [
     { href: "/", label: t.nav.home },
     { href: "/accounts", label: t.nav.accounts },
+    { href: "/pricing", label: "Pricing" },
     { href: "/about", label: t.nav.about },
+    { href: "/contact", label: "Contact" },
   ];
 
   const authNavItems = [

@@ -16,6 +16,15 @@ export function Footer() {
           </Link>
 
           <nav className="flex flex-wrap items-center justify-center gap-6 text-sm">
+            <Link href="/pricing" className="text-gray-400 hover:text-white transition-colors">
+              Pricing
+            </Link>
+            <Link href="/contact" className="text-gray-400 hover:text-white transition-colors">
+              Contact
+            </Link>
+            <Link href="/about" className="text-gray-400 hover:text-white transition-colors">
+              About
+            </Link>
             <Link href="/privacy" className="text-gray-400 hover:text-white transition-colors">
               {t.footer.privacy}
             </Link>

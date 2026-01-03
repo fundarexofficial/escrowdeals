@@ -35,6 +35,14 @@ export function HeroSection() {
 
           <p className="text-xl md:text-2xl text-slate-400 text-pretty max-w-3xl mx-auto">{t.hero.description}</p>
 
+          {/* Pain Points Statement */}
+          <div className="bg-slate-800/30 border border-slate-700/50 rounded-lg p-6 mt-8 max-w-4xl mx-auto">
+            <p className="text-slate-300 text-lg leading-relaxed">
+              <span className="text-cyan-400 font-semibold">Struggling with fraud risk, payment delays, and verification issues?</span>{" "}
+              Finance teams face mounting challenges securing verified payment accounts that are both trustworthy and compliant.
+            </p>
+          </div>
+
           {/* CTA buttons */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
             <Link href="/accounts">
