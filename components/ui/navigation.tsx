@@ -2,20 +2,48 @@
 "use client";
 
 import Link from "next/link";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { usePathname } from "next/navigation";
 import { LanguageSwitcher } from "./language-switcher";
 import { useLanguage } from "@/lib/language-context";
 import { useAuth } from "@/hooks/use-auth";
-import { User, LogOut, Home, CreditCard, History, Menu, X } from "lucide-react";
-import { useState, useEffect } from "react";
+import { User, LogOut, Home, CreditCard, History, Menu, X, Wallet } from "lucide-react";
 
 export function Navigation() {
   const pathname = usePathname();
   const { t } = useLanguage();
   const { user, loading: isLoading } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [balance, setBalance] = useState<number | null>(null);
+  const [loadingBalance, setLoadingBalance] = useState(true);
+
+  // ✅ Fetch balance on mount if user is signed in
+  useEffect(() => {
+    if (user) {
+      const fetchBalance = async () => {
+        try {
+          setLoadingBalance(true);
+          const res = await fetch("/api/auth/me");
+          if (res.ok) {
+            const data = await res.json();
+            setBalance(data.balance ?? 0);
+          } else {
+            setBalance(0);
+          }
+        } catch (err) {
+          console.error("Failed to fetch balance:", err);
+          setBalance(0);
+        } finally {
+          setLoadingBalance(false);
+        }
+      };
+      fetchBalance();
+    } else {
+      setBalance(null);
+      setLoadingBalance(false);
+    }
+  }, [user]);
 
   const handleSignOut = async () => {
     try {
@@ -30,15 +58,12 @@ export function Navigation() {
 
   useEffect(() => setIsMenuOpen(false), [pathname]);
 
-  // ✅ Main nav items — now shown in mobile menu for all users
   const mainNavItems = [
     { href: "/", label: t.nav.home },
     { href: "/accounts", label: t.nav.accounts },
     { href: "/about", label: t.nav.about },
-    
   ];
 
-  // ✅ Auth-specific items — only for signed-in users
   const authNavItems = [
     { href: "/dashboard", label: "Dashboard", icon: <Home className="w-4 h-4 mr-2" /> },
     { href: "/dashboard/topup", label: "Top Up", icon: <CreditCard className="w-4 h-4 mr-2" /> },
@@ -47,6 +72,20 @@ export function Navigation() {
     { href: "https://t.me/JamesGrugeon", label: "DM Admin", icon: <User className="w-4 h-4 mr-2" />, target: "_blank", rel: "noopener noreferrer" },
     { onClick: handleSignOut, label: "Sign Out", icon: <LogOut className="w-4 h-4 mr-2" /> },
   ];
+
+  // ✅ Balance display component (reusable)
+  const BalanceBadge = ({ showIcon = false }: { showIcon?: boolean }) => (
+    <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-cyan-500/10 text-cyan-400 text-xs font-medium whitespace-nowrap">
+      {showIcon && <Wallet className="w-3 h-3" />}
+      {loadingBalance ? (
+        <span className="h-4 w-10 bg-slate-700/50 animate-pulse rounded" />
+      ) : balance !== null ? (
+        `$${balance.toFixed(2)}`
+      ) : (
+        "$0.00"
+      )}
+    </span>
+  );
 
   return (
     <nav className="border-b border-slate-800 bg-slate-950/80 backdrop-blur-sm sticky top-0 z-50">
@@ -60,14 +99,12 @@ export function Navigation() {
             </span>
           </Link>
 
-          {/* Desktop Main Nav — hidden on mobile */}
+          {/* Desktop Main Nav */}
           <div className="hidden md:flex items-center gap-6">
             {mainNavItems.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
-                target={item.target}
-                rel={item.rel}
                 className={`text-sm transition-colors ${
                   pathname === item.href || pathname.startsWith(`${item.href}/`)
                     ? "text-cyan-400"
@@ -86,56 +123,65 @@ export function Navigation() {
               <div className="w-20 h-8 bg-slate-800 rounded animate-pulse" />
             ) : user ? (
               <>
-                {/* Desktop: dropdown menu */}
-                <div className="hidden md:block relative">
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => setIsMenuOpen(!isMenuOpen)}
-                    className="text-slate-300 hover:text-white hover:bg-slate-800"
-                  >
-                    <User className="w-4 h-4 mr-2" />
-                    Menu
-                    <span className="ml-1">▼</span>
-                  </Button>
+                {/* ✅ Desktop: Show balance next to "Menu" */}
+                <div className="hidden md:flex items-center gap-3">
+                  <BalanceBadge showIcon />
+                  <div className="relative">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => setIsMenuOpen(!isMenuOpen)}
+                      className="text-slate-300 hover:text-white hover:bg-slate-800"
+                    >
+                      <User className="w-4 h-4 mr-2" />
+                      Menu
+                      <span className="ml-1">▼</span>
+                    </Button>
 
-                  {isMenuOpen && (
-                    <div className="absolute right-0 mt-2 w-56 bg-slate-900 border border-slate-800 rounded-md shadow-lg z-50">
-                      <div className="py-1">
-                        {authNavItems.map((item, idx) => (
-                          <React.Fragment key={idx}>
-                            {item.onClick ? (
-                              <Button
-                                variant="ghost"
-                                className="w-full justify-start px-4 py-2 text-slate-300 hover:text-white hover:bg-slate-800 rounded-none"
-                                onClick={() => {
-                                  item.onClick();
-                                  setIsMenuOpen(false);
-                                }}
-                              >
-                                {item.icon}
-                                {item.label}
-                              </Button>
-                            ) : (
-                              <Link
-                                href={item.href}
-                                target={item.target}
-                                rel={item.rel}
-                                className="block px-4 py-2 text-slate-300 hover:text-white hover:bg-slate-800"
-                                onClick={() => setIsMenuOpen(false)}
-                              >
-                                {item.icon}
-                                {item.label}
-                              </Link>
-                            )}
-                          </React.Fragment>
-                        ))}
+                    {isMenuOpen && (
+                      <div className="absolute right-0 mt-2 w-56 bg-slate-900 border border-slate-800 rounded-md shadow-lg z-50">
+                        <div className="py-1">
+                          {/* ✅ Desktop menu: include balance at top */}
+                          <div className="px-4 py-2 text-sm font-medium text-cyan-400 flex items-center gap-2">
+                            <Wallet className="w-3.5 h-3.5" />
+                            Balance: {loadingBalance ? "..." : `$${balance?.toFixed(2) ?? "0.00"}`}
+                          </div>
+                          <div className="border-t border-slate-800 my-1" />
+                          {authNavItems.map((item, idx) => (
+                            <React.Fragment key={idx}>
+                              {item.onClick ? (
+                                <Button
+                                  variant="ghost"
+                                  className="w-full justify-start px-4 py-2 text-slate-300 hover:text-white hover:bg-slate-800 rounded-none"
+                                  onClick={() => {
+                                    item.onClick();
+                                    setIsMenuOpen(false);
+                                  }}
+                                >
+                                  {item.icon}
+                                  {item.label}
+                                </Button>
+                              ) : (
+                                <Link
+                                  href={item.href}
+                                  target={item.target}
+                                  rel={item.rel}
+                                  className="block px-4 py-2 text-slate-300 hover:text-white hover:bg-slate-800"
+                                  onClick={() => setIsMenuOpen(false)}
+                                >
+                                  {item.icon}
+                                  {item.label}
+                                </Link>
+                              )}
+                            </React.Fragment>
+                          ))}
+                        </div>
                       </div>
-                    </div>
-                  )}
+                    )}
+                  </div>
                 </div>
 
-                {/* Mobile: hamburger — shows ALL main + auth links */}
+                {/* Mobile hamburger */}
                 <button
                   onClick={() => setIsMenuOpen(!isMenuOpen)}
                   className="md:hidden p-2 text-slate-300 hover:text-white"
@@ -145,17 +191,13 @@ export function Navigation() {
                 </button>
               </>
             ) : (
-              // Guest: always show Sign In / Get Started + mobile menu toggle
               <>
-                {/* Mobile menu toggle for guests */}
                 <button
                   onClick={() => setIsMenuOpen(!isMenuOpen)}
                   className="md:hidden p-2 text-slate-300 hover:text-white"
                 >
                   {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
                 </button>
-
-                {/* Desktop guest buttons */}
                 <div className="hidden md:flex items-center gap-2">
                   <Link href="/signin">
                     <Button variant="ghost" className="text-slate-300 hover:text-white hover:bg-slate-800">
@@ -173,17 +215,14 @@ export function Navigation() {
           </div>
         </div>
 
-        {/* ✅ Mobile Menu — show for ALL users (guest + auth) */}
+        {/* Mobile Menu */}
         {isMenuOpen && (
           <div className="md:hidden border-t border-slate-800 pt-4 pb-4">
             <div className="space-y-3">
-              {/* Always show main nav */}
               {mainNavItems.map((item, idx) => (
                 <Link
                   key={idx}
                   href={item.href}
-                  target={item.target}
-                  rel={item.rel}
                   className="block w-full text-slate-300 hover:text-white hover:bg-slate-800 px-4 py-2 rounded-md"
                   onClick={() => setIsMenuOpen(false)}
                 >
@@ -191,10 +230,14 @@ export function Navigation() {
                 </Link>
               ))}
 
-              {/* Show auth nav only if signed in */}
               {user && (
                 <>
                   <div className="border-t border-slate-800 my-2" />
+                  {/* ✅ Mobile menu: show balance prominently */}
+                  <div className="px-4 py-2 bg-slate-900/50 rounded-md flex items-center justify-between">
+                    <span className="text-slate-300 text-sm font-medium">Your Balance</span>
+                    <BalanceBadge />
+                  </div>
                   {authNavItems.map((item, idx) => (
                     <React.Fragment key={idx}>
                       {item.onClick ? (
@@ -226,7 +269,6 @@ export function Navigation() {
                 </>
               )}
 
-              {/* Guest CTA in mobile menu */}
               {!user && (
                 <>
                   <div className="border-t border-slate-800 my-2" />

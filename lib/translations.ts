@@ -28,7 +28,7 @@ export const translations = {
       globalDesc: "Countries served",
     },
     tiers: {
-      title: "Choose Your Account Tier",
+      title: "Choose Your Account",
       description:
         "From entry-level to premium enterprise accounts, we have the perfect solution for your business needs.",
       tier1Title: "Tier 1 - Entry",
@@ -356,7 +356,7 @@ Our team carefully vets every account to ensure it meets our high standards for 
       globalDesc: "Pays desservis",
     },
     tiers: {
-      title: "Choisissez votre niveau de compte",
+      title: "Choisissez votre compte",
       description: "Des comptes d'entrée de gamme aux comptes d'entreprise premium, nous avons la solution parfaite.",
       tier1Title: "Niveau 1 - Entrée",
       tier1Desc: "Parfait pour commencer",
@@ -683,7 +683,7 @@ Our team carefully vets every account to ensure it meets our high standards for 
       globalDesc: "البلدان المخدومة",
     },
     tiers: {
-      title: "اختر مستوى حسابك",
+      title: "اختر حسابك",
       description: "من الحسابات الأساسية إلى حسابات المؤسسات المتميزة، لدينا الحل المثالي لاحتياجات عملك.",
       tier1Title: "المستوى 1 - أساسي",
       tier1Desc: "مثالي للبدء",
@@ -1007,7 +1007,7 @@ Our team carefully vets every account to ensure it meets our high standards for 
       globalDesc: "Países atendidos",
     },
     tiers: {
-      title: "Elige tu nivel de cuenta",
+      title: "Elige tu  cuenta",
       description: "Desde cuentas básicas hasta cuentas empresariales premium, tenemos la solución perfecta.",
       tier1Title: "Nivel 1 - Básico",
       tier1Desc: "Perfecto para empezar",
@@ -1334,7 +1334,7 @@ Nuestro equipo examina cuidadosamente cada cuenta para asegurar que cumpla con n
       globalDesc: "Países atendidos",
     },
     tiers: {
-      title: "Escolha seu nível de conta",
+      title: "Escolha seu conta",
       description: "De contas básicas a contas empresariais premium, temos a solução perfeita para suas necessidades.",
       tier1Title: "Nível 1 - Básico",
       tier1Desc: "Perfeito para começar",
@@ -1984,7 +1984,7 @@ Nossa equipe avalia cuidadosamente cada conta para garantir que atenda aos nosso
       globalDesc: "服务的国家",
     },
     tiers: {
-      title: "选择您的账户级别",
+      title: "选择您的帐户",
       description: "从入门级到高级企业账户，我们为您的业务需求提供完美的解决方案。",
       tier1Title: "级别 1 - 入门",
       tier1Desc: "非常适合入门",
@@ -2282,7 +2282,7 @@ Nossa equipe avalia cuidadosamente cada conta para garantir que atenda aos nosso
       globalDesc: "ประเทศที่ให้บริการ",
     },
     tiers: {
-      title: "เลือกระดับบัญชีของคุณ",
+      title: "เลือกบัญชีของคุณ",
       description: "จากบัญชีระดับเริ่มต้นไปจนถึงบัญชีองค์กรระดับพรีเมียม เรามีโซลูชันที่สมบูรณ์แบบ",
       tier1Title: "ระดับ 1 - เริ่มต้น",
       tier1Desc: "เหมาะสำหรับการเริ่มต้น",

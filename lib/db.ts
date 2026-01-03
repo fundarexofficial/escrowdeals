@@ -39,20 +39,15 @@ export async function updateUserBalance(userId: string, amount: number, operatio
 
 // Account listing queries
 export async function getAccounts(tier?: string | null, platform?: string | null) {
-  let query = sql`SELECT * FROM account_listings WHERE 1=1`
-
-  if (tier) {
-    query = sql`SELECT * FROM account_listings WHERE tier = ${tier}`
-  }
-
-  if (platform && tier) {
-    query = sql`SELECT * FROM account_listings WHERE tier = ${tier} AND platform = ${platform}`
+  if (tier && platform) {
+    return await sql`SELECT * FROM account_listings WHERE tier = ${tier} AND platform = ${platform} ORDER BY created_at DESC`;
+  } else if (tier) {
+    return await sql`SELECT * FROM account_listings WHERE tier = ${tier} ORDER BY created_at DESC`;
   } else if (platform) {
-    query = sql`SELECT * FROM account_listings WHERE platform = ${platform}`
+    return await sql`SELECT * FROM account_listings WHERE platform = ${platform} ORDER BY created_at DESC`;
+  } else {
+    return await sql`SELECT * FROM account_listings ORDER BY created_at DESC`;
   }
-
-  const result = await sql`${query} ORDER BY created_at DESC`
-  return result
 }
 
 export async function getAccountById(id: string) {
